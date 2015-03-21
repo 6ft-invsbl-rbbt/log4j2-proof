@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="WARN" monitorInterval="30" packages="us.harvey.proof.log4j2.filter">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <filters>
+                <!-- level range filter. we will create this filter in the next step -->
+                <LevelRangeFilter minLevel="info" maxLevel="info" onMatch="ACCEPT" onMismatch="DENY" />
+            </filters>
         </Console>
+        <!-- file appender -->
+        <RollingFile name="FileAppender" fileName="logs/folderAgent.log" append="true" filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <!-- log pattern -->
+            <PatternLayout pattern="%d{ABSOLUTE} %5p %c{1}:%L - %m%n" />
+            <!-- set file size policy -->
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="500 MB" />
+            </Policies>
+        </RollingFile>
     </Appenders>
     <Loggers>
-    <Logger name="us.harvey.proof.log4j2.Head" level="TRACE" additivity="false">
-        <AppenderRef ref="Console" />
-    </Logger>
-        <Root level="ERROR">
+        <!-- <Logger name="us.harvey.proof.log4j2.Head" level="TRACE" additivity="false"> -->
+        <Logger name="us.harvey.proof.log4j2.Head" level="TRACE">
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Root level="debug">
+            <AppenderRef ref="FileAppender" />
             <AppenderRef ref="Console" />
         </Root>
     </Loggers>

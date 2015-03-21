@@ -8,10 +8,6 @@ public class Log4jHelloWorld {
     static final Logger logger = LogManager.getLogger(Log4jHelloWorld.class);
 
     public static void main(String[] args) {
-        //Configure logger
-        //BasicConfigurator.configure();
-        //logger.debug("Hello World!");
-
         // Set up a simple configuration that logs on the console.
         logger.trace("Entering application.");
         Head bar = new Head();
